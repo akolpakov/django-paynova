@@ -8,9 +8,10 @@
 # http://www.opensource.org/licenses/MIT-license
 # Copyright (c) 2015, Andrey Kolpakov <aakolpakov@gmail.com>
 
-from .settings import *
+from django.conf import settings
 from .models import PaynovaPayment
 from paynova_api_python_client import Paynova, PaynovaException
+from django.core.urlresolvers import reverse
 
 
 def create_order(params, init_payment=True):
@@ -31,7 +32,8 @@ def create_order(params, init_payment=True):
 
     # make request
 
-    client = Paynova(PAYNOVA_USERNAME, PAYNOVA_PASSWORD, live=PAYNOVA_LIVE, endpoint=PAYNOVA_ENDPOINT)
+    client = Paynova(settings.PAYNOVA_USERNAME, settings.PAYNOVA_PASSWORD,
+                     live=settings.PAYNOVA_LIVE, endpoint=settings.PAYNOVA_ENDPOINT)
 
     try:
         response = client.create_order(params)
@@ -54,11 +56,17 @@ def create_order(params, init_payment=True):
 
 
 def _get_url_params():
+    if not settings.PAYNOVA_CALLBACK_URL:
+        raise PaynovaException({'statusMessage': 'PAYNOVA_CALLBACK_URL should be defined in settings'})
+
+    url = settings.PAYNOVA_CALLBACK_URL.strip('/')
+
     return {
         'interfaceOptions': {
-            'urlRedirectSuccess': 'http://www.merchant-url.com/success',
-            'urlRedirectCancel': 'http://www.merchant-url.com/cancel',
-            'urlRedirectPending': 'http://www.merchant-url.com/pending',
+            'urlRedirectSuccess': '%s/%s' % (url, reverse('paynova_success')),
+            'urlRedirectCancel': '%s/%s' % (url, reverse('paynova_cancel')),
+            'urlRedirectPending': '%s/%s' % (url, reverse('paynova_pending')),
+            'urlCallback': '%s/%s' % (url, reverse('paynova_callback')),
         }
     }
 
@@ -83,11 +91,12 @@ def _get_params_for_initialize_payment(params):
         'paymentChannelId': 1,
         'interfaceOptions': {
             'interfaceId': 5,
-            'customerLanguageCode': PAYNOVA_DEFAULT_LANGUAGE,
+            'customerLanguageCode': settings.PAYNOVA_DEFAULT_LANGUAGE,
         }
     }
 
-    return_params.update(params, _get_url_params())
+    return_params.update(params)
+    return_params.update(_get_url_params())
 
     return return_params, model
 
@@ -105,9 +114,13 @@ def initialize_payment(params):
 
     params, model = _get_params_for_initialize_payment(params)
 
+    model.params_init_payment = params
+    model.save()
+
     # make request
 
-    client = Paynova(PAYNOVA_USERNAME, PAYNOVA_PASSWORD, live=PAYNOVA_LIVE, endpoint=PAYNOVA_ENDPOINT)
+    client = Paynova(settings.PAYNOVA_USERNAME, settings.PAYNOVA_PASSWORD,
+                     live=settings.PAYNOVA_LIVE, endpoint=settings.PAYNOVA_ENDPOINT)
 
     try:
         response = client.initialize_payment(params)

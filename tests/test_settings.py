@@ -21,3 +21,4 @@ class SettingsTestCase(TestCase):
         expect(my_settings.PAYNOVA_LIVE).to_equal(False)
         expect(my_settings.PAYNOVA_ENDPOINT).to_be_null()
         expect(my_settings.PAYNOVA_DEFAULT_LANGUAGE).to_length(3)
+        expect(my_settings.PAYNOVA_CALLBACK_URL).not_to_be_null()
