@@ -27,6 +27,8 @@ tests_require = [
     'ipdb',
     'coveralls',
     'sphinx',
+    'django_nose',
+    'httmock',
 ]
 
 setup(
@@ -55,7 +57,8 @@ setup(
     install_requires=[
         # add your dependencies here
         # remember to use 'package-name>=x.y.z,<x.y+1.0' notation (this way you get bugfixes)
-        'django>=1.6,<1.8'
+        'django>=1.6,<1.8',
+        'paynova-api-python-client',
     ],
     extras_require={
         'tests': tests_require,
