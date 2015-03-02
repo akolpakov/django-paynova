@@ -58,4 +58,10 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
+
+# IDE
 .idea
+
+# Virtualenv
+sandbox
+test.db

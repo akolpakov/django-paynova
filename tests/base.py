@@ -8,8 +8,11 @@
 # http://www.opensource.org/licenses/MIT-license
 # Copyright (c) 2015, Andrey Kolpakov <aakolpakov@gmail.com>
 
-from unittest import TestCase as PythonTestCase
+from django.test import TestCase
+
+import os
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tests.settings")
 
 
-class TestCase(PythonTestCase):
+class TestCase(TestCase):
     pass

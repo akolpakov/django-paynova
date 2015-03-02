@@ -8,4 +8,3 @@
 # http://www.opensource.org/licenses/MIT-license
 # Copyright (c) 2015, Andrey Kolpakov <aakolpakov@gmail.com>
 
-from paynova_api_django.version import __version__  # NOQA

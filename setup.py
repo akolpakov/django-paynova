@@ -9,7 +9,13 @@
 # Copyright (c) 2015, Andrey Kolpakov <aakolpakov@gmail.com>
 
 from setuptools import setup, find_packages
-from paynova_api_django import __version__
+
+try:
+    from pypandoc import convert
+    read_md = lambda f: convert(f, 'rst')
+except ImportError:
+    print("warning: pypandoc module not found, could not convert Markdown to RST")
+    read_md = lambda f: open(f, 'r').read()
 
 tests_require = [
     'mock',
@@ -25,12 +31,10 @@ tests_require = [
 
 setup(
     name='paynova-api-django',
-    version=__version__,
+    version='0.1.0',
     description='Python client for Paynova\'s API. For Django framework.',
-    long_description='''
-Python client for Paynova's API. For Django framework.
-''',
-    keywords='Paynova API client django',
+    long_description=read_md('README.md'),
+    keywords='Paynova API client python django',
     author='Andrey Kolpakov',
     author_email='aakolpakov@gmail.com',
     url='https://github.com/akolpakov/paynova-api-django',
@@ -51,6 +55,7 @@ Python client for Paynova's API. For Django framework.
     install_requires=[
         # add your dependencies here
         # remember to use 'package-name>=x.y.z,<x.y+1.0' notation (this way you get bugfixes)
+        'django>=1.6,<1.8'
     ],
     extras_require={
         'tests': tests_require,
