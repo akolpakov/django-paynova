@@ -1,0 +1,15 @@
+<html>
+<body>
+    <h1>Cancel</h1>
+    <i>Replace template 'paynova/cancel.html'. Params:</i>
+    <br/><br/>
+    <table>
+        {% for k, v in data.items %}
+            <tr>
+                <td>data.{{ k }}</td>
+                <td>{{ v }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

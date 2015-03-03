@@ -1,0 +1,15 @@
+<html>
+<body>
+    <h1>Success</h1>
+    <i>Replace template 'paynova/success.html'. Params:</i>
+    <br/><br/>
+    <table>
+        {% for k, v in data.items %}
+            <tr>
+                <td>data.{{ k }}</td>
+                <td>{{ v }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
