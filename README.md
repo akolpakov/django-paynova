@@ -3,7 +3,7 @@ TODO
 
 # Installation
 ```
-pip install paynova-api-python-client
+pip install paynova-api-django
 ```
 Python 2.7, Python 3.4, PyPy are supported
 Django 1.6, Django 1.7 are supported
