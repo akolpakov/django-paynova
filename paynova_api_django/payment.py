@@ -62,12 +62,10 @@ def _get_url_params():
     url = settings.PAYNOVA_CALLBACK_URL.strip('/')
 
     return {
-        'interfaceOptions': {
-            'urlRedirectSuccess': '%s/%s' % (url, reverse('paynova_success')),
-            'urlRedirectCancel': '%s/%s' % (url, reverse('paynova_cancel')),
-            'urlRedirectPending': '%s/%s' % (url, reverse('paynova_pending')),
-            'urlCallback': '%s/%s' % (url, reverse('paynova_callback')),
-        }
+        'urlRedirectSuccess': '%s%s' % (url, reverse('paynova_success')),
+        'urlRedirectCancel': '%s%s' % (url, reverse('paynova_cancel')),
+        'urlRedirectPending': '%s%s' % (url, reverse('paynova_pending')),
+        'urlCallback': '%s%s' % (url, reverse('paynova_callback')),
     }
 
 
@@ -96,7 +94,7 @@ def _get_params_for_initialize_payment(params):
     }
 
     return_params.update(params)
-    return_params.update(_get_url_params())
+    return_params['interfaceOptions'].update(_get_url_params())
 
     return return_params, model
 

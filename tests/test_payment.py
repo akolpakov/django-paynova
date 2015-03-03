@@ -105,8 +105,7 @@ class PaymentTestCase(TestCase):
 
     def test_get_url_params(self):
         url_params = _get_url_params()
-        expect(url_params).to_include('interfaceOptions')
-        expect(url_params['interfaceOptions']).to_length(4)
+        expect(url_params).to_length(4)
 
     @override_settings(PAYNOVA_CALLBACK_URL=None)
     def test_get_url_params_fail(self):
@@ -132,7 +131,7 @@ class PaymentTestCase(TestCase):
             expect(params.get('orderId')).to_equal(pp.order_id)
             expect(params.get('totalAmount')).to_equal(pp.params_create_order.get('totalAmount'))
             expect(params).to_include('interfaceOptions')
-            expect(params['interfaceOptions']).to_length(4)
+            expect(params['interfaceOptions']).to_length(6)
 
     def test_initialize_payment_success(self):
         with HTTMock(paynova_mock):

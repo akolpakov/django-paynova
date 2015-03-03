@@ -2,12 +2,14 @@ DEBUG = True
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'test.db'
     }
 }
 
 INSTALLED_APPS = (
     'paynova_api_django',
+    'example_app'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -22,7 +24,7 @@ MIDDLEWARE_CLASSES = (
 
 SECRET_KEY = 'any-key'
 
-ROOT_URLCONF = 'urls'
+ROOT_URLCONF = 'example_app.urls'
 
 PAYNOVA_USERNAME = 'USERNAME'
 PAYNOVA_PASSWORD = 'PASSWORD'
