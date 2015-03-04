@@ -17,12 +17,13 @@ def setting_default(name, default_value):
     value = getattr(settings, name, default_value)
     setattr(settings, name, value)
 
-setting_default('PAYNOVA_USERNAME', None)
+setting_default('PAYNOVA_MERCHANT_ID', None)
 setting_default('PAYNOVA_PASSWORD', None)
+setting_default('PAYNOVA_SECRET', None)
 setting_default('PAYNOVA_LIVE', False)
 setting_default('PAYNOVA_ENDPOINT', None)
 setting_default('PAYNOVA_DEFAULT_LANGUAGE', 'eng')
 setting_default('PAYNOVA_CALLBACK_URL', None)
 
-from payment import create_order, initialize_payment
+from .payment import create_order, initialize_payment
 from paynova_api_python_client import PaynovaException

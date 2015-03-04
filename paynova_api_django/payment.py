@@ -32,19 +32,19 @@ def create_order(params, init_payment=True):
 
     # make request
 
-    client = Paynova(settings.PAYNOVA_USERNAME, settings.PAYNOVA_PASSWORD,
+    client = Paynova(settings.PAYNOVA_MERCHANT_ID, settings.PAYNOVA_PASSWORD,
                      live=settings.PAYNOVA_LIVE, endpoint=settings.PAYNOVA_ENDPOINT)
 
     try:
         response = client.create_order(params)
     except PaynovaException as e:
-        model.status = PaynovaPayment.STATUS_FAIL
-        model.error = '%s' % e
+        model.status = PaynovaPayment.STATUS_ERROR
+        model.status_reason = '%s' % e
         model.save()
         raise e
 
     model.order_id = response.get('orderId')
-    model.status = PaynovaPayment.STATUS_CREATE
+    model.status = PaynovaPayment.STATUS_ORDER_CREATED
     model.save()
 
     # make init with defaults
@@ -117,20 +117,20 @@ def initialize_payment(params):
 
     # make request
 
-    client = Paynova(settings.PAYNOVA_USERNAME, settings.PAYNOVA_PASSWORD,
+    client = Paynova(settings.PAYNOVA_MERCHANT_ID, settings.PAYNOVA_PASSWORD,
                      live=settings.PAYNOVA_LIVE, endpoint=settings.PAYNOVA_ENDPOINT)
 
     try:
         response = client.initialize_payment(params)
     except PaynovaException as e:
-        model.status = PaynovaPayment.STATUS_FAIL
-        model.error = '%s' % e
+        model.status = PaynovaPayment.STATUS_ERROR
+        model.status_reason = '%s' % e
         model.save()
         raise e
 
     model.session_id = response.get('sessionId')
     model.url = response.get('url')
-    model.status = PaynovaPayment.STATUS_INIT
+    model.status = PaynovaPayment.STATUS_PAYMENT_INITED
     model.save()
 
     return model

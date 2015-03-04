@@ -16,7 +16,7 @@ from paynova_api_django import settings as my_settings
 
 class SettingsTestCase(TestCase):
     def test_settings(self):
-        expect(my_settings.PAYNOVA_USERNAME).to_equal(settings.PAYNOVA_USERNAME)
+        expect(my_settings.PAYNOVA_MERCHANT_ID).to_equal(settings.PAYNOVA_MERCHANT_ID)
         expect(my_settings.PAYNOVA_PASSWORD).to_equal(settings.PAYNOVA_PASSWORD)
         expect(my_settings.PAYNOVA_LIVE).to_equal(False)
         expect(my_settings.PAYNOVA_ENDPOINT).to_be_null()

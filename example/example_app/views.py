@@ -13,3 +13,6 @@ def payment(request):
     except PaynovaException as e:
         html = "<html><body>Error %s. %s %s. %s.</body></html>" % (e.errorNumber, e.statusKey, e.statusMessage, e.errors,)
         return HttpResponse(html)
+    except Exception as e:
+        html = "<html><body>Error %s.</body></html>" % e
+        return HttpResponse(html)

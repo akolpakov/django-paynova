@@ -54,3 +54,12 @@ class ModelTestCase(TestCase):
         pp2 = PaynovaPayment.objects.filter().first()
 
         expect(pp2.params_init_payment).to_equal(self.test_object)
+
+    def test_params_ehn(self):
+        pp = PaynovaPayment()
+        pp.params_ehn = self.test_object
+        pp.save()
+
+        pp2 = PaynovaPayment.objects.filter().first()
+
+        expect(pp2.params_ehn).to_equal(self.test_object)

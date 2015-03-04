@@ -14,25 +14,18 @@ import json
 
 
 class PaynovaPayment(models.Model):
-    STATUS_CREATE = 'create'
-    STATUS_INIT = 'init'
-    STATUS_PENDING = 'pending'
-    STATUS_SUCCESS = 'success'
-    STATUS_CANCEL = 'cancel'
-    STATUS_FAIL = 'fail'
-
-    STATUSES = (
-        (STATUS_CREATE, 'Create'),
-        (STATUS_INIT, 'Init'),
-        (STATUS_PENDING, 'Pending'),
-        (STATUS_SUCCESS, 'Success'),
-        (STATUS_CANCEL, 'Cancel'),
-        (STATUS_FAIL, 'Fail'),
-    )
+    STATUS_ORDER_CREATED = 'ORDER_CREATED'
+    STATUS_PAYMENT_INITED = 'PAYMENT_INITED'
+    STATUS_CANCELLED = 'CANCELLED'
+    STATUS_DECLINED = 'DECLINED'
+    STATUS_ERROR = 'ERROR'
+    STATUS_PENDING = 'PENDING'
+    STATUS_COMPLETED = 'COMPLETED'
+    STATUS_AUTHORIZED = 'AUTHORIZED'
 
     date = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=10, choices=STATUSES, null=True, blank=True)
-    error = models.TextField(null=True, blank=True)
+    status = models.CharField(max_length=10, null=True, blank=True)
+    status_reason = models.TextField(null=True, blank=True)
 
     order_id = models.CharField(max_length=255, null=True, blank=True, unique=True)
     session_id = models.CharField(max_length=255, null=True, blank=True, unique=True)
@@ -40,6 +33,7 @@ class PaynovaPayment(models.Model):
 
     _params_create_order = models.TextField(null=True, blank=True)
     _params_init_payment = models.TextField(null=True, blank=True)
+    _params_ehn = models.TextField(null=True, blank=True)
 
     @property
     def params_create_order(self):
@@ -56,3 +50,11 @@ class PaynovaPayment(models.Model):
     @params_init_payment.setter
     def params_init_payment(self, value):
         self._params_init_payment = json.dumps(value)
+
+    @property
+    def params_ehn(self):
+        return json.loads(self._params_ehn)
+
+    @params_ehn.setter
+    def params_ehn(self, value):
+        self._params_ehn = json.dumps(value)
