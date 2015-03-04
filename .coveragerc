@@ -1,5 +1,5 @@
-# This file is part of django-paynova-api.
-# https://github.com/akolpakov/django-paynova-api
+# This file is part of django-paynova.
+# https://github.com/akolpakov/django-paynova
 
 # Licensed under the MIT license:
 # http://www.opensource.org/licenses/MIT-license
@@ -10,7 +10,7 @@ omit =
     *tests.py
 branch = True
 source =
-    django_paynova_api
+    django_paynova
 
 [report]
 exclude_lines =

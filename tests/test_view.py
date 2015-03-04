@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# This file is part of django-paynova-api.
-# https://github.com/akolpakov/django-paynova-api
+# This file is part of django-paynova.
+# https://github.com/akolpakov/django-paynova
 
 # Licensed under the MIT license:
 # http://www.opensource.org/licenses/MIT-license
@@ -15,10 +15,10 @@ from datetime import datetime
 from django.http import HttpResponse, HttpRequest, HttpResponseBadRequest, HttpResponseNotFound
 from django.conf import settings
 from django.dispatch import receiver
-from django_paynova_api import create_order
-from django_paynova_api.views import paynova_callback, paynova_cancel, paynova_pending, paynova_success
-from django_paynova_api.models import PaynovaPayment
-from django_paynova_api.signals import paynova_payment
+from django_paynova import create_order
+from django_paynova.views import paynova_callback, paynova_cancel, paynova_pending, paynova_success
+from django_paynova.models import PaynovaPayment
+from django_paynova.signals import paynova_payment
 from .mock import paynova_mock
 
 import hashlib

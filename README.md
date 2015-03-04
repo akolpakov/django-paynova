@@ -1,9 +1,12 @@
-#Paynova API Python Client
-TODO
+#Paynova AERO
+
+************* NOT RELEASED YET ***************
+
+
 
 # Installation
 ```
-pip install django-paynova-api
+pip install django-paynova
 ```
 Python 2.7, 3.3, 3.4, PyPy are supported
 Django 1.6, 1.7 are supported

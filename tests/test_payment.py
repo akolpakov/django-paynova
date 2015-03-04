@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# This file is part of django-paynova-api.
-# https://github.com/akolpakov/django-paynova-api
+# This file is part of django-paynova.
+# https://github.com/akolpakov/django-paynova
 
 # Licensed under the MIT license:
 # http://www.opensource.org/licenses/MIT-license
@@ -12,9 +12,9 @@ from preggy import expect
 from tests.base import TestCase
 from httmock import HTTMock
 from django.test.utils import override_settings
-from django_paynova_api import create_order, initialize_payment
-from django_paynova_api.models import PaynovaPayment
-from django_paynova_api.payment import _get_url_params, _get_params_for_initialize_payment
+from django_paynova import create_order, initialize_payment
+from django_paynova.models import PaynovaPayment
+from django_paynova.payment import _get_url_params, _get_params_for_initialize_payment
 from paynova_api_python_client import PaynovaException
 from .mock import paynova_mock
 

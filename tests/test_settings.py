@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# This file is part of django-paynova-api.
-# https://github.com/akolpakov/django-paynova-api
+# This file is part of django-paynova.
+# https://github.com/akolpakov/django-paynova
 
 # Licensed under the MIT license:
 # http://www.opensource.org/licenses/MIT-license
@@ -11,7 +11,7 @@
 from preggy import expect
 from tests.base import TestCase
 from django.conf import settings
-from django_paynova_api import settings as my_settings
+from django_paynova import settings as my_settings
 
 
 class SettingsTestCase(TestCase):

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# This file is part of django-paynova-api.
-# https://github.com/akolpakov/django-paynova-api
+# This file is part of django-paynova.
+# https://github.com/akolpakov/django-paynova
 
 # Licensed under the MIT license:
 # http://www.opensource.org/licenses/MIT-license
@@ -32,14 +32,14 @@ tests_require = [
 ]
 
 setup(
-    name='django-paynova-api',
+    name='django-paynova',
     version='0.1.0',
     description='Python client for Paynova\'s API. For Django framework.',
     long_description=read_md('README.md'),
     keywords='Paynova API client python django',
     author='Andrey Kolpakov',
     author_email='aakolpakov@gmail.com',
-    url='https://github.com/akolpakov/django-paynova-api',
+    url='https://github.com/akolpakov/django-paynova',
     license='MIT',
     classifiers=[
         'Development Status :: 4 - Beta',
@@ -66,7 +66,7 @@ setup(
     entry_points={
         'console_scripts': [
             # add cli scripts here in this form:
-            # 'django-paynova-api=django_paynova_api.cli:main',
+            # 'django-paynova=django_paynova.cli:main',
         ],
     },
 )

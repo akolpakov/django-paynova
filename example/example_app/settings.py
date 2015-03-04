@@ -8,7 +8,7 @@ DATABASES = {
 }
 
 INSTALLED_APPS = (
-    'django_paynova_api',
+    'django_paynova',
     'example_app'
 )
 
