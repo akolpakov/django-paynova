@@ -1,5 +1,5 @@
-# This file is part of paynova-api-django.
-# https://github.com/akolpakov/paynova-api-django
+# This file is part of django-paynova-api.
+# https://github.com/akolpakov/django-paynova-api
 
 # Licensed under the MIT license:
 # http://www.opensource.org/licenses/MIT-license
@@ -31,4 +31,4 @@ tox:
 	@tox
 
 #docs:
-	#@cd paynova_api_django/docs && make html && open _build/html/index.html
+	#@cd django_paynova_api/docs && make html && open _build/html/index.html

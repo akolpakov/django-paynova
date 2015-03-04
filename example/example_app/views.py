@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.dispatch import receiver
-from paynova_api_django import create_order, PaynovaException
-from paynova_api_django.signals import paynova_payment
+from django_paynova_api import create_order, PaynovaException
+from django_paynova_api.signals import paynova_payment
 
 
 def payment(request):
