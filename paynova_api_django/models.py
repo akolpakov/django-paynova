@@ -14,6 +14,11 @@ import json
 
 
 class PaynovaPayment(models.Model):
+    """
+        Model for storing all transactions to Paynova
+        *status* shows current status of payment.
+    """
+
     STATUS_ORDER_CREATED = 'ORDER_CREATED'
     STATUS_PAYMENT_INITED = 'PAYMENT_INITED'
     STATUS_CANCELLED = 'CANCELLED'

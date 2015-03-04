@@ -14,27 +14,36 @@ from httmock import HTTMock
 from datetime import datetime
 from django.http import HttpResponse, HttpRequest, HttpResponseBadRequest, HttpResponseNotFound
 from django.conf import settings
+from django.dispatch import receiver
 from paynova_api_django import create_order
-from paynova_api_django.views import *
+from paynova_api_django.views import paynova_callback, paynova_cancel, paynova_pending, paynova_success
 from paynova_api_django.models import PaynovaPayment
+from paynova_api_django.signals import paynova_payment
 from .mock import paynova_mock
 
 import hashlib
+import sys
+
+_ver = sys.version_info
 
 
 class ViewTestCase(TestCase):
+    ehn_common_data_fields = None
+
     def _get_checksum(self, data):
+        hash_string = '%s;%s;%s;%s;%s;' % (
+            data.get('EVENT_TYPE'),
+            data.get('EVENT_TIMESTAMP'),
+            data.get('DELIVERY_TIMESTAMP'),
+            data.get('MERCHANT_ID'),
+            settings.PAYNOVA_SECRET
+        )
+
+        if _ver >= (3, 0):
+            hash_string = hash_string.encode('ascii')
 
         h = hashlib.sha1()
-        h.update(data.get('EVENT_TYPE'))
-        h.update(';')
-        h.update(data.get('EVENT_TIMESTAMP'))
-        h.update(';')
-        h.update(data.get('DELIVERY_TIMESTAMP'))
-        h.update(';')
-        h.update(data.get('MERCHANT_ID'))
-        h.update(';')
-        h.update(settings.PAYNOVA_SECRET)
+        h.update(hash_string)
 
         return h.hexdigest()
 
@@ -99,3 +108,18 @@ class ViewTestCase(TestCase):
         expect(pp.status).to_equal(self.ehn_common_data_fields.get('PAYMENT_STATUS'))
         expect(pp.status_reason).to_equal(self.ehn_common_data_fields.get('PAYMENT_STATUS_REASON'))
         expect(pp.params_ehn).to_equal(self.ehn_common_data_fields)
+
+    def test_signal(self):
+        with HTTMock(paynova_mock):
+            create_order(self.create_order_params)
+
+        @receiver(paynova_payment)
+        def paynova_payment_signal(sender, status, params, **kwargs):
+            pp = PaynovaPayment.objects.filter().first()
+            expect(status).to_equal(self.ehn_common_data_fields.get('PAYMENT_STATUS'))
+            expect(sender).to_equal(pp)
+            expect(params).to_equal(self.ehn_common_data_fields)
+
+        request = HttpRequest()
+        request.POST = self.ehn_common_data_fields
+        expect(paynova_callback(request)).to_be_instance_of(HttpResponse)

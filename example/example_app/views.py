@@ -1,5 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
+from django.dispatch import receiver
 from paynova_api_django import create_order, PaynovaException
+from paynova_api_django.signals import paynova_payment
 
 
 def payment(request):
@@ -16,3 +18,12 @@ def payment(request):
     except Exception as e:
         html = "<html><body>Error %s.</body></html>" % e
         return HttpResponse(html)
+
+
+@receiver(paynova_payment)
+def paynova_payment_signal(sender, status, params, **kwargs):
+    # TODO: handle paynova payment notification
+    # sender - PaynovaPayment model
+    # status - status of a payment
+    # params - params of notification (see http://docs.paynova.com/display/EVENTHOOKS/EHN%3A+Payment)
+    pass

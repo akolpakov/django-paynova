@@ -13,11 +13,14 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render_to_response
 from django.http import HttpResponseBadRequest, HttpResponseNotFound, HttpResponse
 from .models import PaynovaPayment
+from .signals import paynova_payment
 
 import hashlib
 import logging
+import sys
 
 log = logging.getLogger(__name__)
+_ver = sys.version_info
 
 
 @csrf_exempt
@@ -37,13 +40,23 @@ def paynova_pending(request):
 
 @csrf_exempt
 def paynova_callback(request):
+    """
+        Handle Event Hook Notifications from Paynova
+    """
+
+    # check DIGEST
+
     if not _ehn_checksum(request.POST):
         log.error('EHN DIGEST hash is not verified. %s' % request.POST)
         return HttpResponseBadRequest()
 
+    # check EVENT_TYPE
+
     if request.POST.get('EVENT_TYPE') != 'PAYMENT':
         log.error('Unexpected EVENT_TYPE. %s' % request.POST)
         return HttpResponseBadRequest()
+
+    # get PaynovaPayment from model
 
     try:
         pp = PaynovaPayment.objects.get(order_id=request.POST.get('ORDER_ID'), session_id=request.POST.get('SESSION_ID'))
@@ -56,21 +69,26 @@ def paynova_callback(request):
     pp.params_ehn = request.POST
     pp.save()
 
-    # TODO send signal
+    # send signal
+
+    paynova_payment.send(sender=pp, params=request.POST, status=request.POST.get('PAYMENT_STATUS'))
 
     return HttpResponse()
 
 
 def _ehn_checksum(data):
+    hash_string = '%s;%s;%s;%s;%s;' % (
+        data.get('EVENT_TYPE'),
+        data.get('EVENT_TIMESTAMP'),
+        data.get('DELIVERY_TIMESTAMP'),
+        data.get('MERCHANT_ID'),
+        settings.PAYNOVA_SECRET
+    )
+
+    if _ver >= (3, 0):
+        hash_string = hash_string.encode('ascii')
+
     h = hashlib.sha1()
-    h.update(data.get('EVENT_TYPE'))
-    h.update(';')
-    h.update(data.get('EVENT_TIMESTAMP'))
-    h.update(';')
-    h.update(data.get('DELIVERY_TIMESTAMP'))
-    h.update(';')
-    h.update(data.get('MERCHANT_ID'))
-    h.update(';')
-    h.update(settings.PAYNOVA_SECRET)
+    h.update(hash_string)
 
     return data.get('DIGEST') == h.hexdigest()

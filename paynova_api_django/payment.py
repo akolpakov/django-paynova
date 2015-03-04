@@ -56,6 +56,10 @@ def create_order(params, init_payment=True):
 
 
 def _get_url_params():
+    """
+        Build urls for callbacks
+        Docs: http://docs.paynova.com/display/API/Initialize+Payment
+    """
     if not settings.PAYNOVA_CALLBACK_URL:
         raise PaynovaException({'statusMessage': 'PAYNOVA_CALLBACK_URL should be defined in settings'})
 

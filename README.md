@@ -5,8 +5,8 @@ TODO
 ```
 pip install paynova-api-django
 ```
-Python 2.7, Python 3.4, PyPy are supported
-Django 1.6, Django 1.7 are supported
+Python 2.7, 3.3, 3.4, PyPy are supported
+Django 1.6, 1.7 are supported
 
 # Usage
 TODO
