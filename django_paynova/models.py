@@ -29,7 +29,7 @@ class PaynovaPayment(models.Model):
     STATUS_AUTHORIZED = 'AUTHORIZED'
 
     date = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=10, null=True, blank=True)
+    status = models.CharField(max_length=255, null=True, blank=True)
     status_reason = models.TextField(null=True, blank=True)
 
     order_id = models.CharField(max_length=255, null=True, blank=True, unique=True)

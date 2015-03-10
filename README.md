@@ -21,7 +21,17 @@ Using [Paynova API](http://docs.paynova.com/display/API/Paynova+API+Home) python
     )
     ```
 
-3.  Add urls to handle Paynova's callbacks:
+3.  Configure settings:
+    ```python
+    PAYNOVA_MERCHANT_ID = 'MERCHANT_ID'
+    PAYNOVA_PASSWORD = 'PASSWORD'
+    PAYNOVA_SECRET = 'SECRET'
+    PAYNOVA_CALLBACK_URL = 'http://mysite.com'
+    ```
+
+4. Run ``syncdb``
+
+5.  Add urls to handle Paynova's callbacks:
     ```python
     urlpatterns = patterns('',
         url(r'^(?i)payments/paynova/', include('django_paynova.urls')),
