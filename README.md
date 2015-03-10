@@ -1,7 +1,5 @@
 #Paynova Aero for Django
 
-************* NOT YET RELEASED ***************
-
 Implementation of [Paynova Aero](http://docs.paynova.com/display/AERO/Payment+Flow) work flow for Django.
 Using [Paynova API](http://docs.paynova.com/display/API/Paynova+API+Home) python library: [paynova-api-python-client](https://github.com/akolpakov/paynova-api-python-client).
 
