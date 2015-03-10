@@ -29,6 +29,7 @@ tests_require = [
     'sphinx',
     'django_nose',
     'httmock',
+    'pypandoc',
 ]
 
 setup(
