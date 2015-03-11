@@ -8,7 +8,7 @@
 # http://www.opensource.org/licenses/MIT-license
 # Copyright (c) 2015, Andrey Kolpakov <aakolpakov@gmail.com>
 
-from setuptools import setup, find_packages
+from setuptools import setup
 
 try:
     from pypandoc import convert
@@ -34,7 +34,7 @@ tests_require = [
 
 setup(
     name='django-paynova',
-    version='0.1.1',
+    version='0.1.3',
     description='Python client for Paynova\'s API. For Django framework.',
     long_description=read_md('README.md'),
     keywords='Paynova API client python django',
@@ -53,8 +53,8 @@ setup(
         'Programming Language :: Python :: Implementation :: PyPy',
         'Operating System :: OS Independent',
     ],
-    packages=find_packages(),
-    include_package_data=False,
+    packages=['django_paynova'],
+    include_package_data=True,
     install_requires=[
         # add your dependencies here
         # remember to use 'package-name>=x.y.z,<x.y+1.0' notation (this way you get bugfixes)
