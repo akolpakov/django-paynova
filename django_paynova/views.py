@@ -77,7 +77,7 @@ def paynova_callback(request):
 
 
 def _ehn_checksum(data):
-    hash_string = '%s;%s;%s;%s;%s;' % (
+    hash_string = '%s;%s;%s;%s;%s' % (
         data.get('EVENT_TYPE'),
         data.get('EVENT_TIMESTAMP'),
         data.get('DELIVERY_TIMESTAMP'),
@@ -91,4 +91,4 @@ def _ehn_checksum(data):
     h = hashlib.sha1()
     h.update(hash_string)
 
-    return data.get('DIGEST') == h.hexdigest()
+    return data.get('DIGEST').lower() == h.hexdigest().lower()

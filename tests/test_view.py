@@ -31,7 +31,7 @@ class ViewTestCase(TestCase):
     ehn_common_data_fields = None
 
     def _get_checksum(self, data):
-        hash_string = '%s;%s;%s;%s;%s;' % (
+        hash_string = '%s;%s;%s;%s;%s' % (
             data.get('EVENT_TYPE'),
             data.get('EVENT_TIMESTAMP'),
             data.get('DELIVERY_TIMESTAMP'),
@@ -81,6 +81,19 @@ class ViewTestCase(TestCase):
         request.POST = self.ehn_common_data_fields
 
         expect(paynova_callback(request)).to_be_instance_of(HttpResponseBadRequest)
+
+    def test_callback_checksum2(self):
+        request = HttpRequest()
+        self.ehn_common_data_fields['DIGEST'] = self.ehn_common_data_fields['DIGEST'].upper()
+        request.POST = self.ehn_common_data_fields
+
+        expect(paynova_callback(request)).not_to_be_instance_of(HttpResponseBadRequest)
+
+        request = HttpRequest()
+        self.ehn_common_data_fields['DIGEST'] = self.ehn_common_data_fields['DIGEST'].lower()
+        request.POST = self.ehn_common_data_fields
+
+        expect(paynova_callback(request)).not_to_be_instance_of(HttpResponseBadRequest)
 
     def test_callback_event_type(self):
         request = HttpRequest()
