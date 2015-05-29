@@ -34,7 +34,7 @@ tests_require = [
 
 setup(
     name='django-paynova',
-    version='0.1.4',
+    version='0.1.5',
     description='Python client for Paynova\'s API. For Django framework.',
     long_description=read_md('README.md'),
     keywords='Paynova API client python django',
