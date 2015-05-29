@@ -42,7 +42,7 @@ class PaynovaPayment(models.Model):
 
     @property
     def params_create_order(self):
-        return json.loads(self._params_create_order)
+        return json.loads(self._params_create_order) if self._params_create_order else None
 
     @params_create_order.setter
     def params_create_order(self, value):
@@ -50,7 +50,7 @@ class PaynovaPayment(models.Model):
 
     @property
     def params_init_payment(self):
-        return json.loads(self._params_init_payment)
+        return json.loads(self._params_init_payment) if self._params_init_payment else None
 
     @params_init_payment.setter
     def params_init_payment(self, value):
@@ -58,7 +58,7 @@ class PaynovaPayment(models.Model):
 
     @property
     def params_ehn(self):
-        return json.loads(self._params_ehn)
+        return json.loads(self._params_ehn) if self._params_ehn else None
 
     @params_ehn.setter
     def params_ehn(self, value):

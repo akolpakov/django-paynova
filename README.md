@@ -119,7 +119,7 @@ make setup
 ```
 To run tests:
 ```
-make tests
+make test
 ```
 
 # License

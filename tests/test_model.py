@@ -63,3 +63,19 @@ class ModelTestCase(TestCase):
         pp2 = PaynovaPayment.objects.filter().first()
 
         expect(pp2.params_ehn).to_equal(self.test_object)
+
+    def test_empty_jsons(self):
+        pp = PaynovaPayment()
+        expect(pp.params_create_order).to_equal(None)
+        expect(pp.params_init_payment).to_equal(None)
+        expect(pp.params_ehn).to_equal(None)
+
+    def test_empty_set_jsons(self):
+        pp = PaynovaPayment()
+        pp.params_create_order = None
+        pp.params_init_payment = None
+        pp.params_ehn = None
+
+        expect(pp.params_create_order).to_equal(None)
+        expect(pp.params_init_payment).to_equal(None)
+        expect(pp.params_ehn).to_equal(None)
