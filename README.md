@@ -9,7 +9,7 @@ Using [Paynova API](http://docs.paynova.com/display/API/Paynova+API+Home) python
     ```
     pip install django-paynova
     ```
-    Python 2.7, 3.3, 3.4, PyPy are supported
+    Python 2.7, 3.3, 3.4, PyPy are supported<br/>
     Django 1.6, 1.7 are supported
 
 2.  Add ``django-paynova`` to ``INSTALLED_APPS``:
@@ -28,8 +28,13 @@ Using [Paynova API](http://docs.paynova.com/display/API/Paynova+API+Home) python
     PAYNOVA_SECRET = 'SECRET'
     PAYNOVA_CALLBACK_URL = 'http://mysite.com'
     ```
+    
+    For production:
+    ```python
+    PAYNOVA_LIVE = True
+    ```
 
-4. Run ``syncdb``
+4. Run ``./manage migrate``
 
 5.  Add urls to handle Paynova's callbacks:
     ```python
