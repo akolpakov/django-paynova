@@ -13,6 +13,10 @@ from .models import PaynovaPayment
 from paynova_api_python_client import Paynova, PaynovaException
 from django.core.urlresolvers import reverse
 
+import logging
+
+log = logging.getLogger(__name__)
+
 
 def create_order(params, init_payment=True):
     """
@@ -23,6 +27,8 @@ def create_order(params, init_payment=True):
 
         Docs: http://docs.paynova.com/display/API/Create+Order
     """
+
+    log.debug('Create order with params %s' % params)
 
     # create a model
 
@@ -38,14 +44,19 @@ def create_order(params, init_payment=True):
     try:
         response = client.create_order(params)
     except PaynovaException as e:
+        log.error('Failed to create order %s' % e)
+
         model.status = PaynovaPayment.STATUS_ERROR
         model.status_reason = '%s' % e
         model.save()
+
         raise e
 
     model.order_id = response.get('orderId')
     model.status = PaynovaPayment.STATUS_ORDER_CREATED
     model.save()
+
+    log.debug('Order created with orderId = %s' % model.order_id)
 
     # make init with defaults
 
@@ -112,6 +123,8 @@ def initialize_payment(params):
         Docs: http://docs.paynova.com/display/API/Initialize+Payment
     """
 
+    log.debug('Initialize payment with params %s' % params)
+
     # get model and params based on passed data
 
     params, model = _get_params_for_initialize_payment(params)
@@ -127,14 +140,19 @@ def initialize_payment(params):
     try:
         response = client.initialize_payment(params)
     except PaynovaException as e:
+        log.error('Failed to create order %s' % e)
+
         model.status = PaynovaPayment.STATUS_ERROR
         model.status_reason = '%s' % e
         model.save()
+
         raise e
 
     model.session_id = response.get('sessionId')
     model.url = response.get('url')
     model.status = PaynovaPayment.STATUS_PAYMENT_INITED
     model.save()
+
+    log.debug('Payment inited with sessionId = %s' % model.session_id)
 
     return model

@@ -25,16 +25,19 @@ _ver = sys.version_info
 
 @csrf_exempt
 def paynova_success(request):
+    log.debug('Success payment. %s ' % request.POST)
     return render_to_response('paynova/success.html', {'data': request.POST})
 
 
 @csrf_exempt
 def paynova_cancel(request):
+    log.debug('Cancel payment. %s ' % request.POST)
     return render_to_response('paynova/cancel.html', {'data': request.POST})
 
 
 @csrf_exempt
 def paynova_pending(request):
+    log.debug('Pending payment. %s ' % request.POST)
     return render_to_response('paynova/pending.html', {'data': request.POST})
 
 
@@ -44,6 +47,8 @@ def paynova_callback(request):
         Handle Event Hook Notifications from Paynova
     """
 
+    log.info('Callback. %s ' % request.POST)
+
     # check DIGEST
 
     if not _ehn_checksum(request.POST):
@@ -51,6 +56,7 @@ def paynova_callback(request):
         return HttpResponseBadRequest()
 
     # check EVENT_TYPE
+    # TODO: process other events
 
     if request.POST.get('EVENT_TYPE') != 'PAYMENT':
         log.error('Unexpected EVENT_TYPE. %s' % request.POST)
@@ -71,7 +77,11 @@ def paynova_callback(request):
 
     # send signal
 
+    log.debug('Process paynova_payment signal')
+
     paynova_payment.send(sender=pp, params=request.POST, status=request.POST.get('PAYMENT_STATUS'))
+
+    log.debug('Signal paynova_payment processed')
 
     return HttpResponse()
 
